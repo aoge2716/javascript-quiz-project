@@ -41,26 +41,32 @@ class Quiz {
         return true;
     }
 
-    filterQuestionsByDifficulty(difficulty){
-        this.questions = this.questions.filter(function (question) {
-            return question.difficulty === difficulty;
-        });
+    filterQuestionsByDifficulty(diff){
+        if([1,2,3].includes(diff)){
+            const filtered = this.questions.filter(el=>el.difficulty === diff);
+            this.questions.splice(0,this.questions.length);
+            filtered.map(el=>{
+                this.questions.push(el);
+            })
+        }
+        
     }
+
     averageDifficulty() {
-  if (typeof difficulty !== 'number' || difficulty < 1 || difficulty > 3) {
-    return "Invalid difficulty! Please provide a number between 1 and 3.";
-}
-
-const filteredQuestions = this.questions.filter(question => question.difficulty === difficulty);
-
-if (filteredQuestions.length === 0) {
-    return 0;
-}
-
-const totalDifficulty = filteredQuestions.reduce((sum, question) => sum + question.difficulty, 0);
-
-return totalDifficulty / filteredQuestions.length;
+    if (typeof difficulty !== 'number' || difficulty < 1 || difficulty > 3) {
+        return "Invalid difficulty! Please provide a number between 1 and 3.";
     }
+
+    const filteredQuestions = this.questions.filter(question => question.difficulty === difficulty);
+
+    if (filteredQuestions.length === 0) {
+        return 0;
+    }
+
+    const totalDifficulty = filteredQuestions.reduce((sum, question) => sum + question.difficulty, 0);
+
+    return totalDifficulty / filteredQuestions.length;
+        }
 }
 
 // testing
