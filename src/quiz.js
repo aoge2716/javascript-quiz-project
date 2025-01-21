@@ -56,19 +56,10 @@ class Quiz {
     }
 
     averageDifficulty() {
-    if (typeof difficulty !== 'number' || difficulty < 1 || difficulty > 3) {
-        return "Invalid difficulty! Please provide a number between 1 and 3.";
-    }
 
-    const filteredQuestions = this.questions.filter(question => question.difficulty === difficulty);
+    const totalDifficulty = this.questions.reduce((sum, question) => sum + question.difficulty, 0);
 
-    if (filteredQuestions.length === 0) {
-        return 0;
-    }
-
-    const totalDifficulty = filteredQuestions.reduce((sum, question) => sum + question.difficulty, 0);
-
-    return totalDifficulty / filteredQuestions.length;
+    return totalDifficulty / this.questions.length;
         }
 }
 
