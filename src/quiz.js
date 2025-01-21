@@ -46,8 +46,6 @@ class Quiz {
             this.questions = this.questions.filter(el=>el.difficulty === diff);
             return this.questions;
         }
-        
-        
     }
 
     averageDifficulty() {
