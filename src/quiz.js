@@ -58,6 +58,7 @@ class Quiz {
     }
 }
 
+// testing
 const questions = [
     {
       text: "Question 1",
@@ -75,6 +76,12 @@ const questions = [
       text: "Question 3",
       choices: ["g", "h", "i"],
       answer: "g",
+      difficulty: 2,
+    },
+    {
+      text: "Question 4",
+      choices: ["j", "k", "l"],
+      answer: "j",
       difficulty: 3,
     },
 ];
@@ -85,4 +92,7 @@ const quiz = new Quiz(questions, "test", 60);
 console.log("BEFORE: ", quiz.questions)
 quiz.filterQuestionsByDifficulty(2)
 console.log("AFTER: ", quiz.questions)
+console.log([questions[1], questions[2]])
+console.log(questions[1])
+console.log(quiz.questions==[questions[1], questions[2]])
 // console.log([1,2,3].includes(1))
