@@ -41,11 +41,48 @@ class Quiz {
         return true;
     }
 
-    filterQuestionsByDifficulty(){
-        
+    filterQuestionsByDifficulty(diff){
+        if([1,2,3].includes(diff)){
+            const filtered = this.questions.filter(el=>el.difficulty===diff)
+            // console.log("filtered: ",filtered);
+            this.questions.splice(0, this.questions.length);
+            
+            filtered.map(element => {
+                this.questions.push(element);
+            });
+        }        
     }
 
     averageDifficulty(){
 
     }
 }
+
+const questions = [
+    {
+      text: "Question 1",
+      choices: ["a", "b", "c"],
+      answer: "a",
+      difficulty: 1,
+    },
+    {
+      text: "Question 2",
+      choices: ["d", "e", "f"],
+      answer: "d",
+      difficulty: 2,
+    },
+    {
+      text: "Question 3",
+      choices: ["g", "h", "i"],
+      answer: "g",
+      difficulty: 3,
+    },
+];
+
+const quiz = new Quiz(questions, "test", 60);
+
+
+console.log("BEFORE: ", quiz.questions)
+quiz.filterQuestionsByDifficulty(2)
+console.log("AFTER: ", quiz.questions)
+// console.log([1,2,3].includes(1))
