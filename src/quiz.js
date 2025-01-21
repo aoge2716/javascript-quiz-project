@@ -43,24 +43,20 @@ class Quiz {
 
     filterQuestionsByDifficulty(diff){
         if([1,2,3].includes(diff)){
-            console.log("pass")
-            console.log("before", this.questions);
-            const filtered = this.questions.filter(el=>el.difficulty === diff);
-            this.questions.splice(0,this.questions.length);
-            filtered.map(el=>{
-                this.questions.push(el);
-            });
-            console.log("after", this.questions);
+            // console.log("pass")
+            // console.log("before", this.questions);
+            
+            this.questions = this.questions.filter(el=>el.difficulty === diff);
+            return this.questions;
         }
+        
         
     }
 
     averageDifficulty() {
-
-    const totalDifficulty = this.questions.reduce((sum, question) => sum + question.difficulty, 0);
-
-    return totalDifficulty / this.questions.length;
-        }
+        const totalDifficulty = this.questions.reduce((sum, question) => sum + question.difficulty, 0);
+        return totalDifficulty / this.questions.length;
+    }
 }
 
 // testing
