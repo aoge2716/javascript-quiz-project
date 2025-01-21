@@ -41,20 +41,18 @@ class Quiz {
         return true;
     }
 
-    filterQuestionsByDifficulty(diff){
-        if([1,2,3].includes(diff)){
-            const filtered = this.questions.filter(el=>el.difficulty===diff)
-            // console.log("filtered: ",filtered);
-            this.questions.splice(0, this.questions.length);
-            
-            filtered.map(element => {
-                this.questions.push(element);
-            });
-        }        
+    filterQuestionsByDifficulty(difficulty){
+        this.questions = this.questions.filter(function (question) {
+            return question.difficulty === difficulty;
+        });
     }
 
     averageDifficulty(){
-
+        let totalDifficulty = 0;
+        this.questions.forEach(question => {
+            totalDifficulty += question.difficulty;
+        });
+        return totalDifficulty / this.questions.length;
     }
 }
 
@@ -89,10 +87,12 @@ const questions = [
 const quiz = new Quiz(questions, "test", 60);
 
 
-console.log("BEFORE: ", quiz.questions)
+// console.log("BEFORE: ", quiz.questions)
 quiz.filterQuestionsByDifficulty(2)
-console.log("AFTER: ", quiz.questions)
+
+// console.log("AFTER: ", quiz.questions)
 console.log([questions[1], questions[2]])
-console.log(questions[1])
+console.log(quiz.questions)
+// console.log(questions[1])
 console.log(quiz.questions==[questions[1], questions[2]])
 // console.log([1,2,3].includes(1))
