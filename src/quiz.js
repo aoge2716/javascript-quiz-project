@@ -43,11 +43,14 @@ class Quiz {
 
     filterQuestionsByDifficulty(diff){
         if([1,2,3].includes(diff)){
+            console.log("pass")
+            console.log("before", this.questions);
             const filtered = this.questions.filter(el=>el.difficulty === diff);
             this.questions.splice(0,this.questions.length);
             filtered.map(el=>{
                 this.questions.push(el);
-            })
+            });
+            console.log("after", this.questions);
         }
         
     }
@@ -101,11 +104,12 @@ const quiz = new Quiz(questions, "test", 60);
 
 
 // console.log("BEFORE: ", quiz.questions)
-quiz.filterQuestionsByDifficulty("foo")
+quiz.filterQuestionsByDifficulty(2)
+
 
 // console.log("AFTER: ", quiz.questions)
-console.log([questions[1], questions[2]])
-console.log(quiz.questions)
+// console.log([questions[1], questions[2]])
+// console.log(quiz.questions)
 // console.log(questions[1])
 console.log(quiz.questions==[questions[1], questions[2]])
 // console.log([1,2,3].includes(1))
