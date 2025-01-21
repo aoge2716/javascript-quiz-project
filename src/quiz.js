@@ -41,6 +41,18 @@ class Quiz {
         return true;
     }
 
+    filterQuestionsByDifficulty(diff) {
+        if ([1, 2, 3].includes(diff)) {
+            console.log("pass")
+            console.log("before", this.questions);
+            const filtered = this.questions.filter(el => el.difficulty === diff);
+            this.questions.splice(0, this.questions.length);
+            filtered.map(el => {
+                this.questions.push(el);
+            });
+            console.log("after", this.questions);
+        }
+
     filterQuestionsByDifficulty(diff){
         if([1,2,3].includes(diff)){            
             this.questions = this.questions.filter(el=>el.difficulty === diff);
@@ -49,7 +61,10 @@ class Quiz {
     }
 
     averageDifficulty() {
+
+
         const totalDifficulty = this.questions.reduce((sum, question) => sum + question.difficulty, 0);
+
         return totalDifficulty / this.questions.length;
     }
 }
@@ -57,28 +72,28 @@ class Quiz {
 // testing
 const questions = [
     {
-      text: "Question 1",
-      choices: ["a", "b", "c"],
-      answer: "a",
-      difficulty: 1,
+        text: "Question 1",
+        choices: ["a", "b", "c"],
+        answer: "a",
+        difficulty: 1,
     },
     {
-      text: "Question 2",
-      choices: ["d", "e", "f"],
-      answer: "d",
-      difficulty: 2,
+        text: "Question 2",
+        choices: ["d", "e", "f"],
+        answer: "d",
+        difficulty: 2,
     },
     {
-      text: "Question 3",
-      choices: ["g", "h", "i"],
-      answer: "g",
-      difficulty: 2,
+        text: "Question 3",
+        choices: ["g", "h", "i"],
+        answer: "g",
+        difficulty: 2,
     },
     {
-      text: "Question 4",
-      choices: ["j", "k", "l"],
-      answer: "j",
-      difficulty: 3,
+        text: "Question 4",
+        choices: ["j", "k", "l"],
+        answer: "j",
+        difficulty: 3,
     },
 ];
 
@@ -93,5 +108,5 @@ quiz.filterQuestionsByDifficulty(2)
 // console.log([questions[1], questions[2]])
 // console.log(quiz.questions)
 // console.log(questions[1])
-console.log(quiz.questions==[questions[1], questions[2]])
+console.log(quiz.questions == [questions[1], questions[2]])
 // console.log([1,2,3].includes(1))
