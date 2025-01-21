@@ -41,7 +41,7 @@ class Quiz {
         return true;
     }
 
-    filterQuestionsByDifficulty(difficulty) {
+    filterQuestionsByDifficulty(difficulty){
         this.questions = this.questions.filter(function (question) {
             return question.difficulty === difficulty;
         });
@@ -95,7 +95,7 @@ const quiz = new Quiz(questions, "test", 60);
 
 
 // console.log("BEFORE: ", quiz.questions)
-quiz.filterQuestionsByDifficulty(2)
+quiz.filterQuestionsByDifficulty("foo")
 
 // console.log("AFTER: ", quiz.questions)
 console.log([questions[1], questions[2]])
