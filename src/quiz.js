@@ -46,7 +46,6 @@ filterQuestionsByDifficulty(difficulty){
         return question.difficulty === difficulty;
     });
 }
-
     averageDifficulty(){
         let totalDifficulty = 0;
         this.questions.forEach(question => {
