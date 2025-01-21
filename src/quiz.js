@@ -42,10 +42,7 @@ class Quiz {
     }
 
     filterQuestionsByDifficulty(diff){
-        if([1,2,3].includes(diff)){
-            // console.log("pass")
-            // console.log("before", this.questions);
-            
+        if([1,2,3].includes(diff)){            
             this.questions = this.questions.filter(el=>el.difficulty === diff);
             return this.questions;
         }
