@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /************  QUIZ DATA  ************/
   
   // Array with the quiz questions
+  // Question(tex, choices, answer, difficulty)
   const questions = [
     new Question("What is 2 + 2?", ["3", "4", "5", "6"], "4", 1),
     new Question("What is the capital of France?", ["Miami", "Paris", "Oslo", "Rome"], "Paris", 1),
@@ -63,7 +64,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /************  EVENT LISTENERS  ************/
-
   nextButton.addEventListener("click", nextButtonHandler);
 
 
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // nextButtonHandler() - Handles the click on the next button
   // showResults() - Displays the end view and the quiz results
 
-
+  
 
   function showQuestion() {
     // If the quiz has ended, show the results
@@ -95,22 +95,23 @@ document.addEventListener("DOMContentLoaded", () => {
     
 
     // YOUR CODE HERE:
-    //
+    // 
     // 1. Show the question
     // Update the inner text of the question container element and show the question text
+    questionContainer.innerText = question.text;
 
-    
     // 2. Update the green progress bar
     // Update the green progress bar (div#progressBar) width so that it shows the percentage of questions answered
-    
-    progressBar.style.width = `65%`; // This value is hardcoded as a placeholder
+    const progress = (quiz.currentQuestionIndex/quiz.questions.length).toFixed(2)*100
+    progressBar.style.width = progress + "%"; // This value is hardcoded as a placeholder
 
 
 
     // 3. Update the question count text 
     // Update the question count (div#questionCount) show the current question out of total questions
-    
-    questionCount.innerText = `Question 1 of 10`; //  This value is hardcoded as a placeholder
+    const currentq = quiz.currentQuestionIndex+1;
+    const totalq = quiz.questions.length;
+    questionCount.innerText = `Question ${currentq} of ${totalq}`; //  This value is hardcoded as a placeholder
 
 
     
@@ -118,6 +119,17 @@ document.addEventListener("DOMContentLoaded", () => {
     // Loop through the current question `choices`.
       // For each choice create a new radio input with a label, and append it to the choice container.
       // Each choice should be displayed as a radio input element with a label:
+      
+      const choicesDiv = document.createElement("div");
+      question.choices.forEach(choice =>{
+        choiceContainer.innerHTML +=`
+        <input type="radio" name="choice" value="${choice}">
+          <label>${choice}</label>
+        <br>
+        `
+      })
+      questionContainer.appendChild(choicesDiv)
+     
       /* 
           <input type="radio" name="choice" value="CHOICE TEXT HERE">
           <label>CHOICE TEXT HERE</label>
@@ -135,12 +147,18 @@ document.addEventListener("DOMContentLoaded", () => {
   function nextButtonHandler () {
     let selectedAnswer; // A variable to store the selected answer value
 
-
+    console.log("nxt btn")
 
     // YOUR CODE HERE:
     //
     // 1. Get all the choice elements. You can use the `document.querySelectorAll()` method.
-
+    const choices = document.querySelectorAll("#choices");
+    console.log(choices.target.closest("checked"))
+    choices.forEach((el,i) =>{
+      console.log(i)
+      console.log(el)
+    })
+    
 
     // 2. Loop through all the choice elements and check which one is selected
       // Hint: Radio input elements have a property `.checked` (e.g., `element.checked`).
