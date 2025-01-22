@@ -43,6 +43,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Shuffle the quiz questions
   quiz.shuffleQuestions();
 
+  quiz.currentQuestionIndex = 3;
+
 
   /************  SHOW INITIAL CONTENT  ************/
 
@@ -146,30 +148,37 @@ document.addEventListener("DOMContentLoaded", () => {
   
   function nextButtonHandler () {
     let selectedAnswer; // A variable to store the selected answer value
-
-    console.log("nxt btn")
-
     // YOUR CODE HERE:
     //
     // 1. Get all the choice elements. You can use the `document.querySelectorAll()` method.
-    const choices = document.querySelectorAll("#choices");
-    console.log(choices.target.closest("checked"))
-    choices.forEach((el,i) =>{
-      console.log(i)
-      console.log(el)
-    })
+    const inputChoices = document.querySelectorAll("#choices input[type='radio']");
+    console.log(inputChoices);
+    
     
 
     // 2. Loop through all the choice elements and check which one is selected
       // Hint: Radio input elements have a property `.checked` (e.g., `element.checked`).
       //  When a radio input gets selected the `.checked` property will be set to true.
       //  You can use check which choice was selected by checking if the `.checked` property is true.
-
+      inputChoices.forEach((choice) =>{
+        if(choice.checked){
+          selectedAnswer = choice.value
+          console.log(selectedAnswer)
+        }
+      })
       
     // 3. If an answer is selected (`selectedAnswer`), check if it is correct and move to the next question
       // Check if selected answer is correct by calling the quiz method `checkAnswer()` with the selected answer.
       // Move to the next question by calling the quiz method `moveToNextQuestion()`.
       // Show the next question by calling the function `showQuestion()`.
+      if(!selectedAnswer){
+        alert("Answer not chosen, please select an answer");
+      }else{
+        quiz.checkAnswer(selectedAnswer);
+        console.log(quiz.correctAnswers);
+        quiz.moveToNextQuestion()
+        showQuestion();
+      }
   }  
 
 
@@ -186,7 +195,8 @@ document.addEventListener("DOMContentLoaded", () => {
     endView.style.display = "flex";
     
     // 3. Update the result container (div#result) inner text to show the number of correct answers out of total questions
-    resultContainer.innerText = `You scored 1 out of 1 correct answers!`; // This value is hardcoded as a placeholder
+
+    resultContainer.innerText = `You scored ${quiz.correctAnswers} out of ${quiz.questions.length} correct answers!`; // This value is hardcoded as a placeholder
   }
   
 });
