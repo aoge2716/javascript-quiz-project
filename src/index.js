@@ -43,8 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Shuffle the quiz questions
   quiz.shuffleQuestions();
 
-  quiz.currentQuestionIndex = 3;
-
 
   /************  SHOW INITIAL CONTENT  ************/
 
@@ -181,8 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
   }  
 
-
-
+  
 
   function showResults() {
 
@@ -197,6 +194,20 @@ document.addEventListener("DOMContentLoaded", () => {
     // 3. Update the result container (div#result) inner text to show the number of correct answers out of total questions
 
     resultContainer.innerText = `You scored ${quiz.correctAnswers} out of ${quiz.questions.length} correct answers!`; // This value is hardcoded as a placeholder
+    const result = document.querySelector("#restartButton");
+    result.addEventListener("click", restartQuiz);
+
+  }
+ 
+  function restartQuiz(){
+    console.log("quiz restarted")
+    quiz.currentQuestionIndex = 0;
+    quiz.correctAnswers = 0;
+    quizView.style.display = "flex";
+    endView.style.display = "none";
+    showQuestion();
+
+
   }
   
 });
