@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
   /************  HTML ELEMENTS  ************/
   // View divs
+  const QUIZ_LENGTH  = 120;
+  const INTRO = `Welcome to the JS Quizz!`;
+
   const quizView = document.querySelector("#quizView");
   const endView = document.querySelector("#endView");
 
@@ -33,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     new Question("What is the mass–energy equivalence equation?", ["E = mc^2", "E = m*c^2", "E = m*c^3", "E = m*c"], "E = mc^2", 3),
     // Add more questions here
   ];
-  const quizDuration = 120; // 120 seconds (2 minutes)
+  const quizDuration = QUIZ_LENGTH; // 120 seconds (2 minutes)
 
 
   /************  QUIZ INSTANCE  ************/
@@ -49,30 +52,54 @@ document.addEventListener("DOMContentLoaded", () => {
   // Convert the time remaining in seconds to minutes and seconds, and pad the numbers with zeros if needed
   const minutes = Math.floor(quiz.timeRemaining / 60).toString().padStart(2, "0");
   const seconds = (quiz.timeRemaining % 60).toString().padStart(2, "0");
-
+  
   // Display the time remaining in the time remaining container
   const timeRemainingContainer = document.getElementById("timeRemaining");
   timeRemainingContainer.innerText = `${minutes}:${seconds}`;
 
   // Show first question
-  showQuestion();
+  
 
-
-  /************  TIMER  ************/
-
-  let timer;
-
+  /************  show start page  ************/
+  startpage()
+  
+  
 
   /************  EVENT LISTENERS  ************/
-  nextButton.addEventListener("click", nextButtonHandler);
+  nextButton.addEventListener("click", ()=>{
+    // start timer when start button is being clicked 
+    if (nextButton.textContent === "Start"){
+      console.log("game started")
+      nextButton.textContent = "Answer";
+      showQuestion();
+      // start counter for the game
+      const intrvl = setInterval(()=>{
+        const minutes = Math.floor(quiz.timeRemaining / 60).toString().padStart(2, "0");
+        const seconds = (quiz.timeRemaining % 60).toString().padStart(2, "0");
+        timeRemainingContainer.innerText = `${minutes}:${seconds}`;
+        if (seconds === "00" && minutes === "00"){
+          // end game when time reaches
+          clearInterval(intrvl);
+          quiz.timeRemaining = 120;
+          showResults();
+        }
+        quiz.timeRemaining--;
+      },1000);
+    }
+    
+    // call next question when answer button is being clicked
+    else if(nextButton.textContent === "Answer"){
+      nextButtonHandler();
+    }
+  });
 
 
 
   /************  FUNCTIONS  ************/
 
-  // showQuestion() - Displays the current question and its choices
-  // nextButtonHandler() - Handles the click on the next button
-  // showResults() - Displays the end view and the quiz results
+
+
+  // Displays the current question and its choices
   function showQuestion() {
     // If the quiz has ended, show the results
     if (quiz.hasEnded()) {
@@ -82,40 +109,33 @@ document.addEventListener("DOMContentLoaded", () => {
     // Clear the previous question text and question choices
     questionContainer.innerText = "";
     choiceContainer.innerHTML = "";
-    // Get the current question from the quiz by calling the Quiz class method `getQuestion()`
+
     const question = quiz.getQuestion();
-    // Shuffle the choices of the current question by calling the method 'shuffleChoices()' on the question object
     question.shuffleChoices();
     // 1. Show the question
-    // Update the inner text of the question container element and show the question text
     questionContainer.innerText = question.text;
     // 2. Update the green progress bar
-    // Update the green progress bar (div#progressBar) width so that it shows the percentage of questions answered
     const progress = (quiz.currentQuestionIndex/quiz.questions.length).toFixed(2)*100
     progressBar.style.width = progress + "%"; // This value is hardcoded as a placeholder
     // 3. Update the question count text 
-    // Update the question count (div#questionCount) show the current question out of total questions
     const currentq = quiz.currentQuestionIndex+1;
     const totalq = quiz.questions.length;
     questionCount.innerText = `Question ${currentq} of ${totalq}`; //  This value is hardcoded as a placeholder
+    
     // 4. Create and display new radio input element with a label for each choice.
-    // Loop through the current question `choices`.
-      // For each choice create a new radio input with a label, and append it to the choice container.
-      // Each choice should be displayed as a radio input element with a label:
-      
-      const choicesDiv = document.createElement("div");
-      question.choices.forEach(choice =>{
-        choiceContainer.innerHTML +=`
-        <input type="radio" name="choice" value="${choice}">
-          <label>${choice}</label>
-        <br>
-        `
-      })
-      questionContainer.appendChild(choicesDiv)
+    const choicesDiv = document.createElement("div");
+    question.choices.forEach(choice =>{
+      choiceContainer.innerHTML +=`
+      <input type="radio" name="choice" value="${choice}">
+        <label>${choice}</label>
+      <br>
+      `
+    })
+    questionContainer.appendChild(choicesDiv)
   }
 
 
-  
+  // Handles the click on the next button
   function nextButtonHandler () {
     let selectedAnswer; // A variable to store the selected answer value
     // 1. Get all the choice elements. You can use the `document.querySelectorAll()` method.
@@ -147,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }  
 
   
-
+  //Displays the end view and the quiz results
   function showResults() {
     // 1. Hide the quiz view (div#quizView)
     quizView.style.display = "none";
@@ -160,15 +180,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
   }
  
+  // Reset everything and redirect to startpage
   function restartQuiz(){
     console.log("quiz restarted")
     quiz.currentQuestionIndex = 0;
     quiz.correctAnswers = 0;
     quizView.style.display = "flex";
     endView.style.display = "none";
-    showQuestion();
+    quiz.timeRemaining = QUIZ_LENGTH;
+    nextButton.textContent = "Start";
+    progressBar.style.width = "0%"; 
+    questionContainer.innerText = "";
+    choiceContainer.innerHTML = "";
+    startpage();
+  }
 
-
+  function startpage(){
+    // reset everything to default
+    questionCount.textContent = INTRO
+    const intro = document.createElement('p');
+    const intro_content = `
+    <p style="text-align: center">
+    There are total of ${quiz.questions.length} questions 
+    <br>total time: ${minutes}:${seconds}
+    <br>click 'Start' to start quiz try to finish them 
+    </p>`;
+    choiceContainer.innerHTML = intro_content
+    questionContainer.appendChild(intro);
   }
   
 });
